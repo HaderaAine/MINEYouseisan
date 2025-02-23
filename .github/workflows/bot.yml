@@ -2,8 +2,7 @@ name: Run Discord Bot
 
 on:
   schedule:
-    #- cron: "0 20 * * *"  
-    # 毎日 5時0分 (JST) に実行 (UTC 20:00)
+    #- cron: "0 20 * * *"  毎日 5時0分 (JST) に実行 (UTC 20:00)
     - cron: "5 10 * * *"  
     # TEST
 
