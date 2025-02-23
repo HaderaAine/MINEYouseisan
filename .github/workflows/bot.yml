@@ -3,6 +3,7 @@ name: Run Discord Bot
 on:
   schedule:
     - cron: "8 10 * * *"  # TEST
+  workflow_dispatch:  # 手動実行も可能にする
 
 jobs:
   run-bot:
