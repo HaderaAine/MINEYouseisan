@@ -117,7 +117,7 @@ async def move_yesterday_channels(guild):
                     await oldest_channel.delete()
                     for j in range(4):
                         #oldest_channel2 = sorted(past_categories[3-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
-                        oldest_channel = min(past_categories[3-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])
+                        oldest_channel2 = min(past_categories[3-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])
                         await oldest_channel2.edit(category=past_categories[4-j])
                     await channel.edit(category=past_categories[0])
                     continue
