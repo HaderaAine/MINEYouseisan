@@ -7,6 +7,8 @@ on:
     - cron: "50 3 * * *"  
     # TEST
 
+    workflow_dispatch:  # 手動実行も可能にする
+
 jobs:
   run-bot:
     runs-on: ubuntu-latest
