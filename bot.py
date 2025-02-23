@@ -103,14 +103,14 @@ async def move_yesterday_channels(guild):
             # 過去ログ5が50チャンネルなら順に移動
             for i in range(5):
                  if len(past_categories[i].text_channels) < 50:
-                    for j in range(i+1)
-                        if i == 0
+                    for j in range(i+1):
+                        if i == 0:
                             continue
                         oldest_channel2 = sorted(past_categories[i-1-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
                         await oldest_channel2.edit(category=past_categories[i-j])
                     await channel.edit(category=past_categories[0])
                     continue
-                 elif i == 4
+                 elif i == 4: # 過去ログ1まで埋まっている場合、最古のチャンネルを削除
                     oldest_channel = sorted(past_categories[4].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
                     await oldest_channel.delete()
                     for j in range(4):
@@ -118,15 +118,6 @@ async def move_yesterday_channels(guild):
                         await oldest_channel2.edit(category=past_categories[4-j])
                     await channel.edit(category=past_categories[0])
                     continue
-                        
-            for i in range(5):
-                if i == 0 and len(past_categories[i].text_channels) < 50:
-                    await channel.edit(category=past_categories[0])
-                    break
-                if i == 4:  # 過去ログ1まで埋まっている場合、最古のチャンネルを削除
-                    oldest_channel = sorted(past_categories[i].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
-                    await oldest_channel.delete()
-                    await channel.edit(category=past_categories[i])
 
 
 @bot.event
