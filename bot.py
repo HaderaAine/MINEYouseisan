@@ -106,18 +106,50 @@ async def move_yesterday_channels(guild):
                     for j in range(i+1):
                         if i == 0:
                             continue
-                        oldest_channel2 = sorted(past_categories[i-1-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
+                        # oldest_channel2 = sorted(past_categories[i-1-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
+                        oldest_channel2 = min(past_categories[i-1-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])
                         await oldest_channel2.edit(category=past_categories[i-j])
                     await channel.edit(category=past_categories[0])
                     continue
                  elif i == 4: # 過去ログ1まで埋まっている場合、最古のチャンネルを削除
-                    oldest_channel = sorted(past_categories[4].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
+                    # oldest_channel = sorted(past_categories[4].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
+                    oldest_channel = min(past_categories[4].text_channels, key=lambda c: parse_channel_date(c.name)[0])
                     await oldest_channel.delete()
                     for j in range(4):
-                        oldest_channel2 = sorted(past_categories[3-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
+                        #oldest_channel2 = sorted(past_categories[3-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
+                        oldest_channel = min(past_categories[3-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])
                         await oldest_channel2.edit(category=past_categories[4-j])
                     await channel.edit(category=past_categories[0])
                     continue
+                     
+    for j in range(5):
+        """今日明日開催中イベントのチャンネルを時間順に並び替え"""
+            current_category = past_categories[j]
+        if not current_category:
+            return
+    
+        channels_with_time = []
+        separator_channel = None
+    
+        for channel in current_category.text_channels:
+            if channel.name == SEPARATOR_CHANNEL_NAME:
+                separator_channel = channel
+                continue
+            channel_date, channel_time = parse_channel_date(channel.name)
+            if channel_date:
+                channels_with_time.append((channel, channel_date, channel_time))
+    
+        channels_with_time.sort(key=lambda x: (x[1], x[2]), reverse=False)
+    
+        # 並び替え適用
+        sorted_channels = [ch[0] for ch in channels_with_time]
+        if separator_channel:
+            today = datetime.date.today()
+            separator_index = next((i for i, ch in enumerate(channels_with_time) if ch[1] > today), len(sorted_channels))
+            sorted_channels.insert(separator_index, separator_channel)
+    
+        for i, channel in enumerate(sorted_channels):
+            await channel.edit(position=i)
 
 
 @bot.event
