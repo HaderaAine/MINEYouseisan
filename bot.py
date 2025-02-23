@@ -123,8 +123,8 @@ async def move_yesterday_channels(guild):
                     continue
                      
     for j in range(5):
-        """今日明日開催中イベントのチャンネルを時間順に並び替え"""
-            current_category = past_categories[j]
+        """過去ログのチャンネルを時間順に並び替え"""
+        current_category = past_categories[j]
         if not current_category:
             return
     
