@@ -106,7 +106,7 @@ async def move_yesterday_channels(guild):
             # 過去ログ5が50チャンネルなら順に移動
             for i in range(5):
                  if len(past_categories[i].text_channels) < 50:
-                    for j in range(i+1):
+                    for j in range(i):
                         if i == 0:
                             break
                         # oldest_channel2 = sorted(past_categories[i-1-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
