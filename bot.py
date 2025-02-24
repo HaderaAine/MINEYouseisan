@@ -111,6 +111,7 @@ async def move_yesterday_channels(guild):
                             break
                         # oldest_channel2 = sorted(past_categories[i-1-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
                         oldest_channel2 = min(past_categories[i-1-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])
+                        print('MoveChannelFrom:' + past_categories[i-1-j].name + " To " +past_categories[i-j].name)
                         await oldest_channel2.edit(category=past_categories[i-j], position=0)
                     await channel.edit(category=past_categories[0], position=0)
                     break
