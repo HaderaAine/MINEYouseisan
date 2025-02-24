@@ -39,7 +39,7 @@ def parse_channel_date(channel_name):
         hour, minute = int(time_str[:2]), int(time_str[2:])
         # 4月～12月を最優先、1月～3月を後に回す
         # return datetime.date(datetime.datetime.now().year, month, day), datetime.time(hour, minute)
-        fiscal_order = (month + 9) % 12  # 4→0, 5→1, ..., 12→8, 1→9, 2→10, 3→11
+        fiscal_order = (month + 8) % 12  # 4→0, 5→1, ..., 12→8, 1→9, 2→10, 3→11
         return fiscal_order, datetime.date(datetime.datetime.now().year, month, day), datetime.time(hour, minute)
     return None, None, None
 
