@@ -110,19 +110,20 @@ async def move_yesterday_channels(guild):
                         if i == 0:
                             break
                         # oldest_channel2 = sorted(past_categories[i-1-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
-                        oldest_channel2 = min(past_categories[i-1-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])
-                        print('MoveChannelFrom:' + past_categories[i-1-j].name + " To " +past_categories[i-j].name)
+                        oldest_channel2 = min(past_categories[i-1-j].text_channels, key=lambda c: parse_channel_date(c.name))
+                        print(oldest_channel2.name + ' MoveChannelFrom:' + past_categories[i-1-j].name + " To " +past_categories[i-j].name)
                         await oldest_channel2.edit(category=past_categories[i-j], position=0)
                     await channel.edit(category=past_categories[0], position=0)
                     break
                  elif i == 4: # 過去ログ1まで埋まっている場合、最古のチャンネルを削除
                     # oldest_channel = sorted(past_categories[4].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
-                    oldest_channel = min(past_categories[4].text_channels, key=lambda c: parse_channel_date(c.name)[0])
+                    oldest_channel = min(past_categories[4].text_channels, key=lambda c: parse_channel_date(c.name))
                     # チャンネル削除は要検討
                     # await oldest_channel.delete()
                     for j in range(4):
                         #oldest_channel2 = sorted(past_categories[3-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
-                        oldest_channel2 = min(past_categories[3-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])
+                        oldest_channel2 = min(past_categories[3-j].text_channels, key=lambda c: parse_channel_date(c.name))
+                        print(oldest_channel2.name + ' MoveChannelFrom:' + past_categories[i-1-j].name + " To " +past_categories[i-j].name)
                         await oldest_channel2.edit(category=past_categories[4-j], position=0)
                     await channel.edit(category=past_categories[0], position=0)
                     break
