@@ -37,8 +37,11 @@ def parse_channel_date(channel_name):
         date_str, _, time_str = match.groups()
         month, day = int(date_str[:2]), int(date_str[2:])
         hour, minute = int(time_str[:2]), int(time_str[2:])
-        return datetime.date(datetime.datetime.now().year, month, day), datetime.time(hour, minute)
-    return None, None
+        # 4月～12月を最優先、1月～3月を後に回す
+        # return datetime.date(datetime.datetime.now().year, month, day), datetime.time(hour, minute)
+        fiscal_order = (month + 9) % 12  # 4→0, 5→1, ..., 12→8, 1→9, 2→10, 3→11
+        return fiscal_order, datetime.date(datetime.datetime.now().year, month, day), datetime.time(hour, minute)
+    return None, None, None
 
 
 async def move_tomorrow_channels(guild):
@@ -51,7 +54,7 @@ async def move_tomorrow_channels(guild):
     tomorrow = datetime.date.today() + datetime.timedelta(days=1)
 
     for channel in upcoming_category.text_channels:
-        channel_date, _ = parse_channel_date(channel.name)
+        channel_fiscal_order, channel_date, _ = parse_channel_date(channel.name)
         if channel_date == tomorrow:
             await channel.edit(category=current_category)
 
@@ -69,7 +72,7 @@ async def sort_channels_by_time(guild):
         if channel.name == SEPARATOR_CHANNEL_NAME:
             separator_channel = channel
             continue
-        channel_date, channel_time = parse_channel_date(channel.name)
+        channnel_fiscal_order, channel_date, channel_time = parse_channel_date(channel.name)
         if channel_date:
             channels_with_time.append((channel, channel_date, channel_time))
 
@@ -98,7 +101,7 @@ async def move_yesterday_channels(guild):
     past_5_category = past_categories[0]
 
     for channel in current_category.text_channels:
-        channel_date, _ = parse_channel_date(channel.name)
+        channnel_fiscal_order, channel_date, _ = parse_channel_date(channel.name)
         if channel_date == yesterday:
             # 過去ログ5が50チャンネルなら順に移動
             for i in range(5):
@@ -131,11 +134,11 @@ async def move_yesterday_channels(guild):
     channels_with_time = []
 
     for channel in upcoming_category.text_channels:
-        channel_date, channel_time = parse_channel_date(channel.name)
+        channnel_fiscal_order, channel_date, channel_time = parse_channel_date(channel.name)
         if channel_date:
             channels_with_time.append((channel, channel_date, channel_time))
     
-    channels_with_time.sort(key=lambda x: (x[1], x[2]), reverse=False)
+    channels_with_time.sort(key=lambda x: (x[1], x[2], x[3]), reverse=False)
     
         
     sorted_channels = [ch[0] for ch in channels_with_time]
