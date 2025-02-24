@@ -122,9 +122,9 @@ async def move_yesterday_channels(guild):
                     await channel.edit(category=past_categories[0], position=0)
                     break
 
-    """
+    """過去ログ並び替え（未使用）
     for j in range(5):
-        """過去ログのチャンネルを時間順に並び替え"""
+        
         current_category = past_categories[j]
         if not current_category:
             return
@@ -142,7 +142,7 @@ async def move_yesterday_channels(guild):
     
         channels_with_time.sort(key=lambda x: (x[1], x[2]), reverse=False)
     
-        # 並び替え適用
+        
         sorted_channels = [ch[0] for ch in channels_with_time]
         if separator_channel:
             today = datetime.date.today()
