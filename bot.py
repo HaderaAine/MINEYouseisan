@@ -74,15 +74,15 @@ async def sort_channels_by_time(guild):
             continue
         channnel_fiscal_order, channel_date, channel_time = parse_channel_date(channel.name)
         if channel_date:
-            channels_with_time.append((channel, channel_date, channel_time))
+            channels_with_time.append((channel, channnel_fiscal_order, channel_date, channel_time))
 
-    channels_with_time.sort(key=lambda x: (x[1], x[2]), reverse=False)
+    channels_with_time.sort(key=lambda x: (x[1], x[2], x[3]), reverse=False)
 
     # 並び替え適用
     sorted_channels = [ch[0] for ch in channels_with_time]
     if separator_channel:
         today = datetime.date.today()
-        separator_index = next((i for i, ch in enumerate(channels_with_time) if ch[1] > today), len(sorted_channels))
+        separator_index = next((i for i, ch in enumerate(channels_with_time) if ch[2] > today), len(sorted_channels))
         sorted_channels.insert(separator_index, separator_channel)
 
     for i, channel in enumerate(sorted_channels):
@@ -136,7 +136,7 @@ async def move_yesterday_channels(guild):
     for channel in upcoming_category.text_channels:
         channnel_fiscal_order, channel_date, channel_time = parse_channel_date(channel.name)
         if channel_date:
-            channels_with_time.append((channel, channel_date, channel_time))
+            channels_with_time.append((channel, channnel_fiscal_order, channel_date, channel_time))
     
     channels_with_time.sort(key=lambda x: (x[1], x[2], x[3]), reverse=False)
     
