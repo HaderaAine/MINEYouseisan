@@ -108,8 +108,8 @@ async def move_yesterday_channels(guild):
                             break
                         # oldest_channel2 = sorted(past_categories[i-1-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
                         oldest_channel2 = min(past_categories[i-1-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])
-                        await oldest_channel2.edit(category=past_categories[i-j])
-                    await channel.edit(category=past_categories[0])
+                        await oldest_channel2.edit(category=past_categories[i-j], position=0)
+                    await channel.edit(category=past_categories[0], position=0)
                     break
                  elif i == 4: # 過去ログ1まで埋まっている場合、最古のチャンネルを削除
                     # oldest_channel = sorted(past_categories[4].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
@@ -118,10 +118,11 @@ async def move_yesterday_channels(guild):
                     for j in range(4):
                         #oldest_channel2 = sorted(past_categories[3-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])[0]
                         oldest_channel2 = min(past_categories[3-j].text_channels, key=lambda c: parse_channel_date(c.name)[0])
-                        await oldest_channel2.edit(category=past_categories[4-j])
-                    await channel.edit(category=past_categories[0])
+                        await oldest_channel2.edit(category=past_categories[4-j], position=0)
+                    await channel.edit(category=past_categories[0], position=0)
                     break
-                     
+
+    """
     for j in range(5):
         """過去ログのチャンネルを時間順に並び替え"""
         current_category = past_categories[j]
@@ -150,7 +151,7 @@ async def move_yesterday_channels(guild):
     
         for i, channel in enumerate(sorted_channels):
             await channel.edit(position=i)
-
+    """
 
 @bot.event
 async def on_ready():
